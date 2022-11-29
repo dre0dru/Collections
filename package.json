@@ -1,8 +1,8 @@
 {
   "name": "com.dre0dru.collections",
   "version": "1.0.0",
-  "displayName": "Dre0Dru.Collections",
-  "description": "Unity collections",
+  "displayName": "Collections",
+  "description": "Various c# collections for Unity",
   "keywords": [
     "Unity",
 	"Collections"

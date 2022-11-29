@@ -1,0 +1,19 @@
+{
+  "name": "com.dre0dru.collections",
+  "version": "1.0.0",
+  "displayName": "Dre0Dru.Collections",
+  "description": "Unity collections",
+  "keywords": [
+    "Unity",
+	"Collections"
+  ],
+  "author": {
+    "name": "Dre0Dru",
+    "url": "https://github.com/dre0dru"
+  },
+  "license": "MIT",
+  "documentationUrl": "https://github.com/dre0dru",
+  "changelogUrl": "https://github.com/dre0dru",
+  "licensesUrl": "https://github.com/dre0dru",
+  "type": "library"
+}

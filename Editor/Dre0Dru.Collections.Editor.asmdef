@@ -1,0 +1,19 @@
+{
+    "name": "Dre0Dru.Collections.Editor",
+    "rootNamespace": "Dre0Dru.Collections.Editor",
+    "references": [
+        "GUID:858f01292afdc66489a4648c01d9ca1e",
+        "GUID:dc1efc5b0af9df743ad1e20ba7076138"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

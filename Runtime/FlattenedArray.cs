@@ -15,8 +15,14 @@ namespace Dre0Dru.Collections
 
         public T this[int x, int y]
         {
-            get => GetElementAtPosition(x, y);
-            set => SetElementAtPosition(value, x, y);
+            get => GetElementAtIndex(x, y);
+            set => SetElementAtIndex(value, x, y);
+        }
+
+        public T this[Vector2Int index]
+        {
+            get => GetElementAtIndex(index.x, index.y);
+            set => SetElementAtIndex(value, index.x, index.y);
         }
 
         public T this[int i]
@@ -33,12 +39,17 @@ namespace Dre0Dru.Collections
             _array2D = new T[x * y];
         }
 
-        private T GetElementAtPosition(int x, int y)
+        public bool IsIndexValid(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < _array2D.Length / _yDimension && y < _yDimension;
+        }
+
+        private T GetElementAtIndex(int x, int y)
         {
             return _array2D[x * _yDimension + y];
         }
 
-        private void SetElementAtPosition(T element, int x, int y)
+        private void SetElementAtIndex(T element, int x, int y)
         {
             _array2D[x * _yDimension + y] = element;
         }

@@ -20,74 +20,106 @@ namespace Dre0Dru.Collections
         }
 
         //TODO code duplication: https://stackoverflow.com/questions/12838122/ilistt-and-ireadonlylistt
-        public static bool TryMoveNextCircular<T>(this IList<T> list, ref int index, out T next)
+        public static int NextIndexCircular<T>(this IList<T> list, int currentIndex)
         {
+            return ++currentIndex % list.Count;
+        }
+
+        public static int PrevIndexCircular<T>(this IList<T> list, int currentIndex)
+        {
+            currentIndex--;
+            if (currentIndex < 0)
+            {
+                currentIndex = list.Count - 1;
+            }
+
+            currentIndex %= list.Count;
+
+            return currentIndex;
+        }
+
+        public static int NextIndexCircular<T>(this IReadOnlyList<T> list, int currentIndex)
+        {
+            return ++currentIndex % list.Count;
+        }
+
+        public static int PrevIndexCircular<T>(this IReadOnlyList<T> list, int currentIndex)
+        {
+            currentIndex--;
+            if (currentIndex < 0)
+            {
+                currentIndex = list.Count - 1;
+            }
+
+            currentIndex %= list.Count;
+
+            return currentIndex;
+        }
+
+        public static T NextCircular<T>(this IList<T> list, int index) =>
+            list[list.NextIndexCircular(index)];
+
+        public static T PrevCircular<T>(this IList<T> list, int index) =>
+            list[list.PrevIndexCircular(index)];
+
+        public static bool TryNextCircular<T>(this IList<T> list, ref int index, out T next)
+        {
+            next = default;
             if (list.Count == 0)
             {
-                next = default;
                 return false;
             }
 
-            index = (index + 1) % list.Count;
+            index = list.NextIndexCircular(index);
+            next = list[index];
+            return true;
+        }
+        
+        public static bool TryPrevCircular<T>(this IList<T> list, ref int index, out T next)
+        {
+            next = default;
+            if (list.Count == 0)
+            {
+                return false;
+            }
 
+            index = list.PrevIndexCircular(index);
             next = list[index];
             return true;
         }
 
-        public static bool TryMovePrevCircular<T>(this IList<T> list, ref int index, out T next)
+        public static T NextCircular<T>(this IReadOnlyList<T> list, int index) =>
+            list[list.NextIndexCircular(index)];
+
+        public static T PrevCircular<T>(this IReadOnlyList<T> list, int index) =>
+            list[list.PrevIndexCircular(index)];
+
+        public static bool TryNextCircular<T>(this IReadOnlyList<T> list, ref int index, out T next)
         {
+            next = default;
             if (list.Count == 0)
             {
-                next = default;
                 return false;
             }
 
-            index -= 1;
-            if (index < 0)
-            {
-                index = list.Count - 1;
-            }
-
-            index %= list.Count;
-
+            index = list.NextIndexCircular(index);
             next = list[index];
             return true;
         }
-
-        public static bool TryMoveNextCircular<T>(this IReadOnlyList<T> list, ref int index, out T next)
+        
+        public static bool TryPrevCircular<T>(this IReadOnlyList<T> list, ref int index, out T next)
         {
+            next = default;
             if (list.Count == 0)
             {
-                next = default;
                 return false;
             }
 
-            index = (index + 1) % list.Count;
-
+            index = list.PrevIndexCircular(index);
             next = list[index];
             return true;
         }
-
-        public static bool TryMovePrevCircular<T>(this IReadOnlyList<T> list, ref int index, out T next)
-        {
-            if (list.Count == 0)
-            {
-                next = default;
-                return false;
-            }
-
-            index -= 1;
-            if (index < 0)
-            {
-                index = list.Count - 1;
-            }
-
-            index %= list.Count;
-
-            next = list[index];
-            return true;
-        }
-
+        
         public static bool TryPopLast<T>(this IList<T> list, out T element)
         {
             if (list.Count > 0)
@@ -104,7 +136,7 @@ namespace Dre0Dru.Collections
             return false;
         }
 
-        public static T Last<T>(this IList<T> list) => 
+        public static T Last<T>(this IList<T> list) =>
             list[list.LastIndex()];
     }
 }

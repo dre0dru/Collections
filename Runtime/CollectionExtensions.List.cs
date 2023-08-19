@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Dre0Dru.Collections
@@ -38,29 +37,23 @@ namespace Dre0Dru.Collections
             return currentIndex;
         }
 
-        public static int NextIndexCircular<T>(this IReadOnlyList<T> list, int currentIndex)
-        {
-            return ++currentIndex % list.Count;
-        }
-
-        public static int PrevIndexCircular<T>(this IReadOnlyList<T> list, int currentIndex)
-        {
-            currentIndex--;
-            if (currentIndex < 0)
-            {
-                currentIndex = list.Count - 1;
-            }
-
-            currentIndex %= list.Count;
-
-            return currentIndex;
-        }
-
         public static T NextCircular<T>(this IList<T> list, int index) =>
             list[list.NextIndexCircular(index)];
 
         public static T PrevCircular<T>(this IList<T> list, int index) =>
             list[list.PrevIndexCircular(index)];
+
+        public static T NextCircular<T>(this IList<T> list, ref int index)
+        {
+            index = list.NextIndexCircular(index);
+            return list[index];
+        }
+
+        public static T PrevCircular<T>(this IList<T> list, ref int index)
+        {
+            index = list.PrevIndexCircular(index);
+            return list[index];
+        }
 
         public static bool TryNextCircular<T>(this IList<T> list, ref int index, out T next)
         {
@@ -74,7 +67,7 @@ namespace Dre0Dru.Collections
             next = list[index];
             return true;
         }
-        
+
         public static bool TryPrevCircular<T>(this IList<T> list, ref int index, out T next)
         {
             next = default;
@@ -88,13 +81,43 @@ namespace Dre0Dru.Collections
             return true;
         }
 
-        public static T NextCircular<T>(this IReadOnlyList<T> list, int index) =>
-            list[list.NextIndexCircular(index)];
+        public static int NextIndexCircularReadOnly<T>(this IReadOnlyList<T> list, int currentIndex)
+        {
+            return ++currentIndex % list.Count;
+        }
 
-        public static T PrevCircular<T>(this IReadOnlyList<T> list, int index) =>
-            list[list.PrevIndexCircular(index)];
+        public static int PrevIndexCircularReadOnly<T>(this IReadOnlyList<T> list, int currentIndex)
+        {
+            currentIndex--;
+            if (currentIndex < 0)
+            {
+                currentIndex = list.Count - 1;
+            }
 
-        public static bool TryNextCircular<T>(this IReadOnlyList<T> list, ref int index, out T next)
+            currentIndex %= list.Count;
+
+            return currentIndex;
+        }
+
+        public static T NextCircularReadOnly<T>(this IReadOnlyList<T> list, int index) =>
+            list[list.NextIndexCircularReadOnly(index)];
+
+        public static T PrevCircularReadOnly<T>(this IReadOnlyList<T> list, int index) =>
+            list[list.PrevIndexCircularReadOnly(index)];
+
+        public static T NextCircularReadOnly<T>(this IReadOnlyList<T> list, ref int index)
+        {
+            index = list.NextIndexCircularReadOnly(index);
+            return list[index];
+        }
+
+        public static T PrevCircularReadOnly<T>(this IReadOnlyList<T> list, ref int index)
+        {
+            index = list.PrevIndexCircularReadOnly(index);
+            return list[index];
+        }
+        
+        public static bool TryNextCircularReadOnly<T>(this IReadOnlyList<T> list, ref int index, out T next)
         {
             next = default;
             if (list.Count == 0)
@@ -102,12 +125,11 @@ namespace Dre0Dru.Collections
                 return false;
             }
 
-            index = list.NextIndexCircular(index);
-            next = list[index];
+            next = list.NextCircularReadOnly(ref index);
             return true;
         }
         
-        public static bool TryPrevCircular<T>(this IReadOnlyList<T> list, ref int index, out T next)
+        public static bool TryPrevCircularReadOnly<T>(this IReadOnlyList<T> list, ref int index, out T next)
         {
             next = default;
             if (list.Count == 0)
@@ -115,8 +137,7 @@ namespace Dre0Dru.Collections
                 return false;
             }
 
-            index = list.PrevIndexCircular(index);
-            next = list[index];
+            next = list.PrevCircularReadOnly(ref index);
             return true;
         }
         

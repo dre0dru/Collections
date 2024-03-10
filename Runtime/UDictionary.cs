@@ -10,8 +10,8 @@ namespace Dre0Dru.Collections
 {
     [Serializable]
     [DebuggerDisplay("Count = {Count}")]
-    public class UDictionary<TKey, TValue, TKvp> : IDictionary<TKey, TValue>, ISerializationCallbackReceiver,
-        IDeserializationCallback, ISerializable
+    public class UDictionary<TKey, TValue, TKvp> : IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>,
+        ISerializationCallbackReceiver, IDeserializationCallback, ISerializable
         where TKvp: IKvp<TKey, TValue>, new()
     {
         protected class SerializableDictionary : Dictionary<TKey, TValue>
@@ -56,6 +56,8 @@ namespace Dre0Dru.Collections
         public Dictionary<TKey, TValue>.KeyCollection Keys => Dictionary.Keys;
         public Dictionary<TKey, TValue>.ValueCollection Values => Dictionary.Values;
 
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => Dictionary.Keys;
+        IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => Dictionary.Values;
         ICollection<TKey> IDictionary<TKey, TValue>.Keys => Dictionary.Keys;
         ICollection<TValue> IDictionary<TKey, TValue>.Values => Dictionary.Values;
 
